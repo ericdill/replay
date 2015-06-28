@@ -204,7 +204,7 @@ class GetLastModel(_BrokerSearch):
         logger.debug('history in WatchForHeadersModel.save_state: '
                      '{}'.format(self.history))
         replay.core.save_state(self.history, 'GetLastModel',
-            {'num_to_retrieve': self.num_to_retrieve})
+                               {'num_to_retrieve': self.num_to_retrieve})
 
 
 class ScanIDSearchModel(_BrokerSearch):
@@ -246,4 +246,4 @@ class ScanIDSearchModel(_BrokerSearch):
         logger.debug('history in ScanIDSearchModel.save_state: '
                      '{}'.format(self.history))
         replay.core.save_state(self.history, 'ScanIDSearchModel',
-            {'scan_id': self.scan_id})
+                               {'scan_id': self.scan_id})

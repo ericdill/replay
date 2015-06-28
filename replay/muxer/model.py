@@ -58,20 +58,24 @@ class ColumnModel(Atom):
         # or downsample
         self.data_muxer.col_info[self.name] = ColSpec(
             self.name, self.dim, self.shape, self.upsample, self.downsample)
-        logger.debug('New data_muxer col_info: %s', self.data_muxer.col_info[self.name])
+        logger.debug('New data_muxer col_info: %s',
+                     self.data_muxer.col_info[self.name])
 
     def __repr__(self):
         return ('ColumnModel(name={}, data_muxer={}, dim={}, upsample={}, '
                 'downsample={})'.format(self.name, self.data_muxer, self.dim,
                                         self.upsample, self.downsample))
+
     @property
     def shape(self):
         return self._shape
+
     @shape.setter
     def shape(self, value):
         if value is None:
             value = tuple()
         self._shape = value
+
 
 class MuxerModel(Atom):
     """Class that defines the Model for the data muxer
@@ -79,8 +83,9 @@ class MuxerModel(Atom):
     Attributes
     ----------
     data_muxer : dataportal.muxer.api.DataMuxer
-        The data_muxer holds the non-time-aligned data.  Upon asking the data_muxer
-        to reformat its data into time-aligned bins, a dataframe is returned
+        The data_muxer holds the non-time-aligned data.  Upon asking the
+        data_muxer reformat its data into time-aligned bins, a dataframe is
+        returned
     run_header: metadatastore.api.Document
         The bucket of information from the data broker that contains all
         non-data information
@@ -89,7 +94,7 @@ class MuxerModel(Atom):
         Dictionary that is analogous to the col_info property of the
         dataportal.muxer.data.DataMuxer object
     scalar_columns : atom.list.List
-        The list of columns names whose cells contain 0-D arrays (single values)
+        The list of columns names whose cells contain scalars
     line_columns : atom.list.List
         The list of column names whose cells contain 1-D arrays
     image_columns : atom.list.List
@@ -168,7 +173,7 @@ class MuxerModel(Atom):
 
     auto_updating = Bool(False)
 
-    update_rate = Int(2000) # in ms
+    update_rate = Int(2000)  # in ms
 
     binning_options = List(default=['None'])
     binning_column = Str('None')
@@ -244,7 +249,6 @@ class MuxerModel(Atom):
                 ttime.sleep(1)
                 self.get_new_data()
 
-
     @observe('binning_column')
     def _binning_column_changed(self, changed):
         # make sure that the binning column combo box is kept in sync with the
@@ -314,7 +318,6 @@ class MuxerModel(Atom):
 
         logger.debug('data frame after normalizing all')
 
-
     def normalize(self, column_name, should_be_normalized):
         """
         Parameters
@@ -349,8 +352,8 @@ class MuxerModel(Atom):
         for col_name, col_model in self.column_models.items():
             muxer_col_info = self.data_muxer.col_info.get(col_name, None)
             if muxer_col_info:
-                # if the values are the same, no magic updates happen, otherwise
-                # the UI gets magically updated
+                # if the values are the same, no magic updates happen,
+                # otherwise the UI gets magically updated
                 col_model.dim = muxer_col_info.ndim
                 col_model.name = muxer_col_info.name
                 col_model.upsample = muxer_col_info.upsample
@@ -363,13 +366,13 @@ class MuxerModel(Atom):
                 self.column_models.pop(col_name)
         for col_name, col_info in self.data_muxer.col_info.items():
             if col_name in updated_cols:
-                # column has already been accounted for, move on to the next one
+                # column has already been accounted for, move on
                 continue
             # insert a new column model
             self.column_models[col_name] = ColumnModel(
                 data_muxer=self.data_muxer, dim=col_info.ndim,
-                name=col_name, shape=col_info.shape, upsample=col_info.upsample,
-                downsample=col_info.downsample)
+                name=col_name, shape=col_info.shape,
+                upsample=col_info.upsample, downsample=col_info.downsample)
         self._update_column_sortings()
 
     def _update_column_sortings(self):
