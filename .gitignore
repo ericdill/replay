@@ -93,3 +93,5 @@ target/
 
 *.swp
 *.swo
+
+elf._shape
