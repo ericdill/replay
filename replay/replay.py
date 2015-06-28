@@ -132,8 +132,8 @@ def define_parser():
                         "small screen. Tested as low as 1366x768")
     parser.add_argument('--log', action="store", dest='log_level',
                         type=str, help="Set the replay logging level. Known "
-                                       "options are 'debug', 'info', 'warning', "
-                                       "'error', 'critical")
+                                       "options are 'debug', 'info', 'warning'"
+                                       ", 'error', 'critical")
     parser.add_argument('--verbose', action="store_true",
                         help="Print extra information to the console. Sets the "
                              "logging level to 'info'")
@@ -180,7 +180,3 @@ def main():
         pass
 
     app.start()
-
-
-if __name__ == "__main__":
-    main()
