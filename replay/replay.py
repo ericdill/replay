@@ -179,4 +179,4 @@ def main():
     except ValueError:
         pass
 
-    app.start()
+    return app
